@@ -7,12 +7,12 @@ phi = 0.2 #porosidade
 mu = 1*(10**(-3)) #viscosidade 
 ct = 1*(10**(-9)) #compressibilidade total
 L_reservatorio = 100 #comprimento
-pw = 15*(10**6) 
-pe = 25*(10**6)
+pw = 15*(10**6) #pressão poço
+pe = 25*(10**6) #pressão externa
 
 dh = k / (phi * mu * ct) #Difusividade Hidraulica
 
-#Fazendo fluxo linear
+#Fazendo fluxo linear pressão
 def linear_pressao_pressao(x, t, L, pw, pe, termos=100):
     soma = np.zeros_like(x)
     for n in range (1, termos + 1):
@@ -23,7 +23,7 @@ def linear_pressao_pressao(x, t, L, pw, pe, termos=100):
     p = (pe - pw) * ((x/L) + (2 / np.pi) * soma) + pw
     return p
 
-
+#Gráfico
 x = np.linspace(0, L_reservatorio, 100)
 t_dias = [10, 50, 100]
 for t in t_dias:
