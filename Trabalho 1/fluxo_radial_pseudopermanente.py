@@ -28,7 +28,7 @@ for t in tempo:
     t_segs = t * 86400 #passar para segundos por conta da difusividade hidráulica
     f = radial_pseudopermanente(r, t_segs, h, rw, re, p0, qw)
     p = f/(10**6) #conversão para MPa
-    plt.plot(r, p, label=f't={t} dias')
+    plt.plot(r, p, label=f"Tempo={t} dias")
 
 plt.title("Fluxo Radial Pseudopermanente")
 plt.xlabel("Raio (m)")

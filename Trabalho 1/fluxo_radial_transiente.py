@@ -20,14 +20,14 @@ def radial_transiente(r, t, h, p0, qw):
     return p
 
 #Gráfico
-r = np.linspace(0.1, 4000, 500)
+r = np.linspace(0.1, 4000, 100)
 tempo = (10, 50, 100) 
 
 for t in tempo:
     t_segs = t * 86400 #passar para segundos por conta da difusividade hidráulica
     f = radial_transiente(r, t_segs, h, p0, qw)
     p = f/(10**6) #conversão para MPa
-    plt.plot(r, p, label=f't={t}s')
+    plt.plot(r, p, label=f"Tempo={t} dias")
 
 plt.title("Fluxo Radial Transiente")
 plt.xlabel("Raio (m)")

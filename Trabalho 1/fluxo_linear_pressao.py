@@ -30,11 +30,11 @@ for t in t_dias:
     #t_segs = t * 86400 #passar para segundos por conta da difusividade hidráulica
     f = linear_pressao_pressao(x, t, L_reservatorio, pw, pe)
     p = f/(10**6) #conversão para MPa
-    plt.plot(x, p, label=f't = {t}')
+    plt.plot(x, p, label=f"Tempo = {t} dias")
 
-plt.title('Fluxo Linear Pressão Pressão')
-plt.xlabel('Distância (m)')
-plt.ylabel('Pressão (MPa)')
+plt.title("Fluxo Linear - Pressão Pressão")
+plt.xlabel("Distância (m)")
+plt.ylabel("Pressão (MPa)")
 plt.legend()
 plt.grid(True)
 plt.show()

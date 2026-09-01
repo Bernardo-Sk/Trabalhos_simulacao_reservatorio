@@ -28,11 +28,11 @@ for t in t_dias:
     t_segs = t * 86400 #passar para segundos por conta da difusividade hidráulica
     f = linear_vazao_prescrita(x, t_segs, L_reservatorio, p0, qw, A)
     p = f/(10**6) #conversão para MPa
-    plt.plot(x, p, label=f't = {t} dias')
+    plt.plot(x, p, label=f"Tempo = {t} dias")
 
-plt.title('Fluxo Linear Vazão Prescrita')
-plt.xlabel('Distância (m)')
-plt.ylabel('Pressão (MPa)')
+plt.title("Fluxo Linear - Vazão Prescrita")
+plt.xlabel("Distância (m)")
+plt.ylabel("Pressão (MPa)")
 plt.legend()
 plt.grid(True)
 plt.show()
