@@ -32,7 +32,7 @@ for t in t_dias:
     p = f/(10**6) #conversão para MPa
     plt.plot(x, p, label=f"Tempo = {t} dias")
 
-plt.title("Fluxo Linear - Pressão Pressão")
+plt.title("Fluxo Linear - Pressão Prescrita")
 plt.xlabel("Distância (m)")
 plt.ylabel("Pressão (MPa)")
 plt.legend()

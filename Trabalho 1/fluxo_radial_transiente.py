@@ -10,6 +10,8 @@ ct = 1*(10**(-9)) #compressibilidade total
 h = 10 #espessura
 p0 = 15*(10**6) #pressão inicial
 qw = 0.0002 #vazão prescrita
+rw = 0.1 # raio poço
+re = 4000 # raio externo
 
 dh = k / (phi * mu * ct) #Difusividade Hidraulica
 
@@ -20,7 +22,7 @@ def radial_transiente(r, t, h, p0, qw):
     return p
 
 #Gráfico
-r = np.linspace(0.1, 4000, 100)
+r = np.linspace(rw, re, 100)
 tempo = (10, 50, 100) 
 
 for t in tempo:
