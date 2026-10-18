@@ -51,16 +51,16 @@ casos = [
         'dias_dos_graficos': [0, 15, 30, 90, 365],
     },
     {
-        'nome': 'Caso 3 - Five-Spot normal',
+        'nome': 'Caso 3 - Five-Spot invertido',
         'pressao_produtor': 23e6,
         'fator_permeabilidade': 0.1,
-        'produtores': [
-            (50.0, 50.0),
-            (950.0, 50.0),
-            (50.0, 950.0),
-            (950.0, 950.0),
-        ],
-        'injetores': [(500.0, 500.0, 100.0)],  # vazão em m³/dia
+        'produtores': [(500.0, 500.0)],
+        'injetores': [
+            (50.0, 50.0, 25.0),
+            (950.0, 50.0, 25.0),
+            (50.0, 950.0, 25.0),
+            (950.0, 950.0, 25.0),
+        ],  # vazão de cada injetor em m³/dia
         'falha': None,
         'dias_dos_graficos': [0, 7, 15, 30, 365],
     },
@@ -424,6 +424,7 @@ def graficos(resultado):
         tempos,
         resultado['vazao_produtores'].sum(axis=1),
         color='black',
+        linestyle=':',
         linewidth=2,
         label='Vazão total',
     )
