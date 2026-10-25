@@ -5,32 +5,32 @@ from scipy.sparse import lil_matrix
 from scipy.sparse.linalg import spsolve
 
 
-# Dados do reservatório
+# Dados do reservatório:
 comprimento_x = 1000.0       # m
 comprimento_y = 1000.0       # m
 espessura = 10.0             # m
 numero_celulas_x = 30
 numero_celulas_y = 30
 
-# Propriedades da rocha e do fluido
+# Propriedades da rocha e do fluido:
 porosidade = 0.2
 viscosidade = 1e-3           # Pa.s
 compressibilidade_total = 1e-9  # 1/Pa
 pressao_inicial = 25e6       # Pa
 raio_poco = 0.1              # m
 
-# Permeabilidade heterogênea
+# Permeabilidade heterogênea:
 permeabilidade_mediana = 500.0  # mD
 desvio_log = 1.0
 semente = 42
 
-# Tempo da simulação
+# Tempo da simulação:
 tempo_total = 365.0          # dias
 passo_tempo = 1.0            # dia
 dias_dos_graficos = [0, 15, 30, 90, 365]
 
 
-# Casos simulados
+# Casos simulados:
 casos = [
     {
         'nome': 'Caso 1 - Meio heterogêneo',
@@ -99,7 +99,7 @@ def simular(caso, permeabilidade):
     permeabilidade_x = 2 / (1 / permeabilidade[:, :-1] + 1 / permeabilidade[:, 1:])
     permeabilidade_y = 2 / (1 / permeabilidade[:-1, :] + 1 / permeabilidade[1:, :])
 
-    # Falha selante: remove a conexão entre as células atravessadas pela falha.
+    # Falha selante:
     if caso['falha'] is not None:
         x_falha, y_inicio, y_fim = caso['falha']
         face_x = round(x_falha / dx)
@@ -112,7 +112,7 @@ def simular(caso, permeabilidade):
             raise ValueError('A falha precisa coincidir com as faces da malha.')
         permeabilidade_x[primeira_linha:ultima_linha, face_x - 1] = 0.0
 
-    # Índices e índice de produtividade dos poços (modelo de Peaceman).
+    # Índices e índice de produtividade dos poços (modelo de Peaceman):
     raio_equivalente = 0.140365 * np.hypot(dx, dy)
     if raio_poco >= raio_equivalente:
         raise ValueError('O raio do poço precisa ser menor que o raio equivalente.')
@@ -190,7 +190,7 @@ def simular(caso, permeabilidade):
 
     matriz = matriz.tocsr()
 
-    # Pressão inicial e históricos de vazão e produção.
+    # Pressão inicial e históricos de vazão e produção:
     pressao = np.full(
         (numero_passos + 1, numero_celulas_y, numero_celulas_x),
         pressao_inicial,
@@ -203,7 +203,7 @@ def simular(caso, permeabilidade):
             poco['indice'] * (pressao_inicial - caso['pressao_produtor']) * 86400
         )
 
-    # Formulação totalmente implícita
+    # Formulação totalmente implícita:
     for tempo in range(1, numero_passos + 1):
         vetor = termo_acumulacao * pressao[tempo - 1].ravel()
         vetor += fonte_injecao.ravel()
@@ -292,7 +292,7 @@ def calcular_velocidade(resultado, indice_tempo):
     velocidade_y_centro = 0.5 * (velocidade_y[:-1, :] + velocidade_y[1:, :])
     return velocidade_x_centro * 86400, velocidade_y_centro * 86400
 
-
+# Gráficos:
 def graficos(resultado):
     caso = resultado['caso']
     dias = caso.get('dias_dos_graficos', dias_dos_graficos)
@@ -323,7 +323,7 @@ def graficos(resultado):
     escala_velocidade = Normalize(vmin=0, vmax=velocidade_maxima)
     extensao = [0, comprimento_x, 0, comprimento_y]
 
-    # Campo de permeabilidade.
+    # Campo de permeabilidade:
     figura_k, eixo_k = plt.subplots(figsize=(6, 5), constrained_layout=True)
     mapa_k = eixo_k.imshow(
         permeabilidade,
@@ -336,7 +336,7 @@ def graficos(resultado):
     desenhar_pocos(eixo_k, resultado)
     figura_k.colorbar(mapa_k, ax=eixo_k, label='Permeabilidade (mD)')
 
-    # Pressão e velocidade.
+    # Pressão e velocidade:
     figura = plt.figure(
         figsize=(3.6 * len(dias) + 1.5, 7),
         constrained_layout=True,
@@ -409,7 +409,7 @@ def graficos(resultado):
         label='Velocidade (m/dia)',
     )
 
-    # Vazão dos produtores e produção acumulada.
+    # Vazão dos produtores e produção acumulada:
     tempos = np.arange(len(pressao)) * resultado['passo_tempo']
     figura_vazao, eixo_vazao = plt.subplots(figsize=(8, 5))
     eixo_producao = eixo_vazao.twinx()
